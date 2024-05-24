@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kursi Mod - Pembayaran Premium</title>
+    <link rel="stylesheet" href="css/payment.css">
+</head>
+<body>
+    <header>
+        <h1>Pembayaran Premium Kursi Mod</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="game-mods.html">Game Mods</a>
+            <a href="app-mods.html">App Mods</a>
+            <div id="notification" class="notification" style="display: none;">Anda belum menyelesaikan pembayaran!</div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Informasi Pembayaran</h2>
+        <form id="payment-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="paymentMethod">Choose Payment Method</label>
+                <select id="paymentMethod" name="paymentMethod" required>
+                    <option value="qris">QRIS</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="amount">Payment Amount</label>
+                <input type="text" id="amount" name="amount" value="2.000 / 0,13" readonly>
+                <span>Rupiah / USD</span>
+            </div>
+            <button type="submit" class="btn">Bayar Sekarang</button>
+        </form>
+    </div>
+
+    <!-- QRIS Modal -->
+    <div id="qrisModal" class="modal">
+        <div class="modal-content">
+            <h2>Scan QRIS</h2>
+            <img id="qrisImage" src="qris.png" alt="QRIS Code">
+            <a id="downloadQris" href="qris.png" download="qris-code.png">Download QRIS</a>
+            <div class="timer" id="timer">00:10</div>
+            <button class="btn-close" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        let timerInterval;
+        let timeLeft = localStorage.getItem('timeLeft') ? parseInt(localStorage.getItem('timeLeft')) : 10; // 10 seconds
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('showNotification') === 'true') {
+                showNotification();
+            }
+
+            if (localStorage.getItem('timerRunning') === 'true') {
+                showModal();
+                startTimer();
+            }
+
+            document.getElementById('notification').addEventListener('click', showModal);
+
+            document.getElementById('payment-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const paymentMethod = document.getElementById('paymentMethod').value;
+                if (paymentMethod === 'qris') {
+                    showModal();
+                    if (!timerInterval) {
+                        startTimer();
+                    }
+                    localStorage.setItem('timerRunning', 'true');
+                } else {
+                    alert('Redirecting to PayPal...');
+                }
+            });
+        });
+
+        function showModal() {
+            document.getElementById('qrisModal').style.display = 'flex';
+            hideNotification();
+        }
+
+        function closeModal() {
+            document.getElementById('qrisModal').style.display = 'none';
+            showNotification();
+        }
+
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.style.display = 'flex';
+            localStorage.setItem('showNotification', 'true');
+        }
+
+        function hideNotification() {
+            const notification = document.getElementById('notification');
+            notification.style.display = 'none';
+            localStorage.setItem('showNotification', 'false');
+        }
+
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            timerElement.textContent = formatTime(timeLeft);
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                localStorage.setItem('timeLeft', timeLeft);
+                timerElement.textContent = formatTime(timeLeft);
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    localStorage.removeItem('timeLeft');
+                    localStorage.removeItem('timerRunning');
+                    alert('Waktu pembayaran telah habis.');
+                    closeModal();
+                    hideNotification();
+                }
+            }, 1000);
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate - Kursi Mod</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/donation.css"> <!-- CSS khusus untuk halaman donasi -->
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Kursi Mod</h1>
+            <div class="menu-icon" id="menu-icon">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+            <nav id="nav-links">
+                <a href="index.html#home">Home</a>
+                <a href="index.html#news">News</a>
+                <a href="game-mods.html">Game Mods</a>
+                <a href="app-mods.html">App Mods</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="donation" class="section">
+            <h2>Support Our Work</h2>
+            <div class="item">
+                <h3>Help Us Grow</h3>
+                <p>Your support helps us create more content and improve our services.</p>
+                <a href="https://saweria.co/kursimod" onclick="showThankYou()">Donate Now</a>
+            </div>
+        </div>
+
+        <div id="thank-you" class="thank-you-message">
+            <p>Terima kasih atas donasi Anda! Kontribusi Anda sangat berarti bagi kami untuk terus berkembang.</p>
+        </div>
+    </div>
+
+    <script>
+        function showThankYou() {
+            const thankYouMessage = document.getElementById('thank-you');
+            thankYouMessage.style.display = 'block';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuIcon = document.getElementById('menu-icon');
+            const navLinks = document.getElementById('nav-links');
+
+            menuIcon.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                menuIcon.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

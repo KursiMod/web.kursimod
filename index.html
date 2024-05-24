@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kursi Mod - Home</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Kursi Mod</h1>
+            <div class="menu-icon" id="menu-icon">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+            <nav id="nav-links">
+                <a href="#home">Home</a>
+                <a href="game-mods.html">Game Mods</a>
+                <a href="app-mods.html">App Mods</a>
+                <a href="donation.html">Donate</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="home" class="section">
+            <h2>Welcome to Kursi Mod</h2>
+            <div class="item">
+                <h3>Discover the Latest Mods</h3>
+                <p>Explore the latest mods for your favorite games and applications.</p>
+                <a href="game-mods.html">Explore Game Mods</a> | <a href="app-mods.html">Explore App Mods</a>
+            </div>
+        </div>
+
+        <div id="news" class="section">
+            <h2>Latest News</h2>
+            <div class="item">
+                <h3>Stay Updated with Latest News</h3>
+                <p>Stay updated with the latest news about game and app mods.</p>
+                <a href="link-to-news-1">Read More</a>
+            </div>
+            <div class="item">
+                <h3>New Mods Released</h3>
+                <p>New mods released this week. Check them out!</p>
+                <a href="link-to-news-2">Read More</a>
+            </div>
+            <!-- New Section for Daily Offer -->
+            <div class="item" id="daily-offer" style="display: none;">
+                <h3>Daily Offer: Special Deal for Today Only!</h3>
+                <p>Don't miss out on today's special offer. Get exclusive mods now!</p>
+                <a href="special-deal.html">Get Offer</a>
+            </div>
+            <!-- End of Daily Offer Section -->
+            <div class="item">
+                <h3>Upcoming Events in Modding Community</h3>
+                <p>Discover upcoming events and competitions in the modding community.</p>
+                <a href="link-to-news-3">Read More</a>
+            </div>
+            <div class="item">
+                <h3>Interview with Mod Developer</h3>
+                <p>Exclusive interview with a prominent mod developer about their latest project.</p>
+                <a href="link-to-news-4">Read More</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuIcon = document.getElementById('menu-icon');
+            const navLinks = document.getElementById('nav-links');
+
+            menuIcon.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                menuIcon.classList.toggle('active');
+            });
+
+            // Check if the daily offer has been shown today
+            const lastShownDate = localStorage.getItem('lastShownDate');
+            const currentDate = new Date().toDateString();
+
+            if (lastShownDate !== currentDate) {
+                const dailyOffer = document.getElementById('daily-offer');
+                dailyOffer.style.display = 'block';
+
+                // Set the last shown date to today
+                localStorage.setItem('lastShownDate', currentDate);
+            }
+        });
+    </script>
+</body>
+</html>
